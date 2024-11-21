@@ -1,130 +1,182 @@
 // #include <stdio.h>
-// #include "book.h"
-// // #include "catalogue.h"
+// #include <stdlib.h>
+// #include <string.h>
+// #include "catalogue.h"
+// // #include "book.h"
 
-// void book_details()
+// // void book_details()
+// // {
+// //     struct Book b1 = {"Shyamachi Aai", "Sane Guruji", "978-3-16-148410-0", "XYZ", 2024, "Novel"};
+// //     printf("Book's Title : %s\n", b1.book_title);
+// //     printf("Author Name : %s\n", b1.author);
+// //     printf("ISBN Number : %s\n", b1.ISBN_number);
+// //     printf("Publisher Name : %s\n", b1.publisher);
+// //     printf("Publication Year : %d\n", b1.publication_year);
+// //     printf("Genre : %s\n", b1.genre);
+// // }
+
+// // struct LibraryCatalogue *next;
+// struct Book *tail = NULL;
+// struct Book *head = NULL;
+
+// void Add_NewBook()
 // {
-//     struct Book b1 = {"Shyamachi Aai", "Sane Guruji", "978-3-16-148410-0", "XYZ", 2024, "Novel"};
-//     printf("Book's Title : %s\n", b1.book_title);
-//     printf("Author Name : %s\n", b1.author);
-//     printf("ISBN Number : %s\n", b1.ISBN_number);
-//     printf("Publisher Name : %s\n", b1.publisher);
-//     printf("Publication Year : %d\n", b1.publication_year);
-//     printf("Genre : %s\n", b1.genre);
+//     struct Book *temp = malloc(sizeof(struct Book));
+//     printf("\nEnter the Book Title : ");
+//     scanf("%s", temp->book_title);
+
+//     printf("\nEnter the Author Name : ");
+//     scanf("%s", temp->author);
+
+//     printf("\nEnter the ISBN Number : ");
+//     scanf("%s", temp->ISBN_number);
+
+//     printf("\nEnter the Publisher Name : ");
+//     scanf("%s", temp->publisher);
+
+//     printf("\nEnter the Publication Year : ");
+//     scanf("%d", temp->publication_year);
+
+//     printf("\nEnter the Genre : ");
+//     scanf("%s", temp->genre);
+
+//     temp->next = NULL;
+
+//     if(head == NULL)
+//     {
+//         head = temp;
+//         tail = temp;
+//     }
+//     else
+//     {
+//         tail->next = temp;
+//         tail = temp;
+//     }
 // }
 
-// void main()
+// int main()
 // {
-//     // new_book();
-//     book_details();
+//     Add_NewBook();
+//     //book_details();
+//     return 0;
 // }
 
-#include "catalogue.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "catalogue.h"
 
-// Function to initialize the library catalogue
-void initializeCatalogue(LibraryCatalogue *catalogue) {
-    catalogue->head = NULL;
-    catalogue->size = 0;
-}
-
-// Function to create a new book
-Book *createBook(int id, const char *title, const char *author, const char *isbn,
-                 const char *publisher, int publicationYear, const char *genre) {
-    Book *newBook = (Book *)malloc(sizeof(Book));
-    if (!newBook) {
-        fprintf(stderr, "Error: Memory allocation failed.\n");
+// Initialize the LibraryCatalogue with a specified capacity
+LibraryCatalogue* initializeCatalogue(int initial_capacity) {
+    LibraryCatalogue* catalogue = (LibraryCatalogue*)malloc(sizeof(LibraryCatalogue));
+    if (!catalogue) {
+        printf("Memory allocation for catalogue failed.\n");
         return NULL;
     }
-    newBook->id = id;
-    strncpy(newBook->title, title, MAX_TITLE_LENGTH - 1);
-    newBook->title[MAX_TITLE_LENGTH - 1] = '\0';
-    strncpy(newBook->author, author, MAX_AUTHOR_LENGTH - 1);
-    newBook->author[MAX_AUTHOR_LENGTH - 1] = '\0';
-    strncpy(newBook->isbn, isbn, MAX_ISBN_LENGTH - 1);
-    newBook->isbn[MAX_ISBN_LENGTH - 1] = '\0';
-    strncpy(newBook->publisher, publisher, MAX_PUBLISHER_LENGTH - 1);
-    newBook->publisher[MAX_PUBLISHER_LENGTH - 1] = '\0';
-    newBook->publicationYear = publicationYear;
-    strncpy(newBook->genre, genre, MAX_GENRE_LENGTH - 1);
-    newBook->genre[MAX_GENRE_LENGTH - 1] = '\0';
-    newBook->next = NULL;
-    return newBook;
-}
-
-// Function to add a book to the catalogue
-void addBook(LibraryCatalogue *catalogue, Book *book) {
-    if (!book) return;
-    book->next = catalogue->head;
-    catalogue->head = book;
-    catalogue->size++;
-}
-
-// Function to remove a book from the catalogue by ID
-int removeBook(LibraryCatalogue *catalogue, int id) {
-    Book *current = catalogue->head;
-    Book *prev = NULL;
-
-    while (current) {
-        if (current->id == id) {
-            if (prev) {
-                prev->next = current->next;
-            } else {
-                catalogue->head = current->next;
-            }
-            free(current);
-            catalogue->size--;
-            return 1;  // Successfully removed
-        }
-        prev = current;
-        current = current->next;
+    catalogue->books = (struct Book*)malloc(initial_capacity * sizeof(struct Book));
+    if (!catalogue->books) {
+        printf("Memory allocation for books array failed.\n");
+        free(catalogue);
+        return NULL;
     }
-    return 0;  // Book not found
+    catalogue->size = 0;
+    catalogue->capacity = initial_capacity;
+    return catalogue;
 }
 
-// Function to find a book by title
-Book *findBookByTitle(LibraryCatalogue *catalogue, const char *title) {
-    Book *current = catalogue->head;
-    while (current) {
-        if (strcmp(current->title, title) == 0) {
-            return current;
+// Add a new book to the catalogue
+void addBook(LibraryCatalogue* catalogue, struct Book book) {
+    if (catalogue->size == catalogue->capacity) {
+        // Resize the books array
+        int new_capacity = catalogue->capacity * 2;
+        struct Book* new_books = (struct Book*)realloc(catalogue->books, new_capacity * sizeof(struct Book));
+        if (!new_books) {
+            printf("Failed to resize the books array.\n");
+            return;
         }
-        current = current->next;
+        catalogue->books = new_books;
+        catalogue->capacity = new_capacity;
     }
-    return NULL;  // Book not found
+    catalogue->books[catalogue->size++] = book;
 }
 
-// Function to display the entire catalogue
-void displayCatalogue(LibraryCatalogue *catalogue) {
-    if (!catalogue->head) {
-        printf("The catalogue is empty.\n");
+// Display all books in the catalogue
+void displayCatalogue(const LibraryCatalogue* catalogue) {
+    if (catalogue->size == 0) {
+        printf("The library catalogue is empty.\n");
         return;
     }
-    Book *current = catalogue->head;
+
     printf("Library Catalogue:\n");
-    while (current) {
-        printf("ID: %d\n", current->id);
-        printf("Title: %s\n", current->title);
-        printf("Author(s): %s\n", current->author);
-        printf("ISBN: %s\n", current->isbn);
-        printf("Publisher: %s\n", current->publisher);
-        printf("Year: %d\n", current->publicationYear);
-        printf("Genre: %s\n\n", current->genre);
-        current = current->next;
+    for (int i = 0; i < catalogue->size; i++) {
+        struct Book* book = &catalogue->books[i];
+        printf("\nBook %d:\n", i + 1);
+        printf("  Title: %s\n", book->book_title);
+        printf("  Author: %s\n", book->author);
+        printf("  ISBN: %s\n", book->ISBN_number);
+        printf("  Publisher: %s\n", book->publisher);
+        printf("  Publication Year: %d\n", book->publication_year);
+        printf("  Genre: %s\n", book->genre);
+    
     }
-    printf("Total books: %d\n", catalogue->size);
 }
 
-// Function to clean up the library catalogue and free memory
-void cleanupCatalogue(LibraryCatalogue *catalogue) {
-    Book *current = catalogue->head;
-    while (current) {
-        Book *temp = current;
-        current = current->next;
-        free(temp);
+// Free the memory allocated for the catalogue
+void freeCatalogue(LibraryCatalogue* catalogue) {
+    if (catalogue) {
+        free(catalogue->books);
+        free(catalogue);
     }
-    catalogue->head = NULL;
-    catalogue->size = 0;
+}
+
+#include <stdio.h>
+#include "catalogue.h"
+
+int main() {
+    // Initialize the library catalogue
+    LibraryCatalogue* catalogue = initializeCatalogue(2);
+    if (!catalogue) {
+        return 1;
+    }
+
+    // Create some books
+    struct Book book1 = {
+        "1984",
+        "George Orwell",
+        "9780451524935",
+        "Secker & Warburg",
+        1949,
+        "Dystopian Fiction"
+    };
+
+    struct Book book2 = {
+        "The Catcher in the Rye",
+        "J.D. Salinger",
+        "9780316769488",
+        "Little, Brown and Company",
+        1951,
+        "Fiction"
+    };
+
+    struct Book book3 = {
+        "To Kill a Mockingbird",
+        "Harper Lee",
+        "9780061120084",
+        "J.B. Lippincott & Co.",
+        1960,
+        "Classic"
+    };
+
+    // Add books to the catalogue
+    addBook(catalogue, book1);
+    addBook(catalogue, book2);
+    addBook(catalogue, book3);
+
+    // Display the catalogue
+    displayCatalogue(catalogue);
+
+    // Free the catalogue
+    freeCatalogue(catalogue);
+
+    return 0;
 }

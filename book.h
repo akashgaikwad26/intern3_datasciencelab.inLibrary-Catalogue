@@ -10,6 +10,10 @@ struct Book{
     char publisher[MAX_PUBLISHER_LENGTH];
     int publication_year;
     char genre[MAX_GENRE_LENGTH];
-}Book;
+};
+
+// struct Book books;
+
+
 
  
