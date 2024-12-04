@@ -8,11 +8,11 @@ struct Book{
     char author[MAX_AUTHOR_LENGTH];
     char ISBN_number[17];  // ISBN-13 or ISBN-10 with a hyphen
     char publisher[MAX_PUBLISHER_LENGTH];
-    int publication_year;
+    char publication_year[4];
     char genre[MAX_GENRE_LENGTH];
+    struct Book *next;
 };
 
-// struct Book books;
 
 
 
