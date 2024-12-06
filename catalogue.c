@@ -1,50 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "catalogue.h"
-// #include "book.h"
+#include "book.c"
 
-struct Book *tail = NULL, *head = NULL, *temp;
-struct LibraryCatalogue *catalogue;
-
-void create_NewBook()
-{
-    printf("\n ***** Enter the Book Details ***** \n");
-    temp = malloc(sizeof(struct Book));
-
-    printf("Enter the Book Title : ");
-    scanf("%s", temp->book_title);
-
-    printf("Enter the Author Name : ");
-    scanf("%s", temp->author);
-
-    printf("Enter the ISBN Number : ");
-    scanf("%s", temp->ISBN_number);
-
-    printf("Enter the Publisher Name : ");
-    scanf("%s", temp->publisher);
-
-    printf("Enter the Publication Year : ");
-    scanf("%d", temp->publication_year);
-
-    printf("Enter the Genre : ");
-    scanf("%s", temp->genre);
-
-    temp->next = NULL;
-      
-    if(head == NULL)
-    {
-        head = temp;
-        tail = temp;
-    }
-    else
-    {
-        tail->next = temp;
-        tail = temp;
-    }
-}
-
-void Add_NewBook()
+void add_book()
 {
     struct LibraryCatalogue *new_entry = (struct LibraryCatalogue *)malloc(sizeof(struct LibraryCatalogue));
     if (!new_entry) {
@@ -52,8 +11,8 @@ void Add_NewBook()
         return;
     }
 
-    create_NewBook();
-  
+    create_book();
+
     new_entry->books = *temp;
     new_entry->NEXT = NULL; 
     if (catalogue == NULL) {
@@ -64,74 +23,149 @@ void Add_NewBook()
     catalogue = new_entry;
 }
 
-void Display_BookDetails()
-{
-    struct LibraryCatalogue *current = catalogue;
-    struct Book *temp = head;
-    int count = 1;
-    if(head == NULL)
-    {
-        printf("Records are not present");
+void delete_book() {
+    printf("\n***** Delete a Book from catalogue *****\n");
+
+    char isbn_to_delete[20];
+    printf("\nEnter ISBN to delete book details : ");
+    scanf("%s", isbn_to_delete);
+
+    // Check if the list is empty
+    if (head == NULL) {
+        printf("\nThe catalogue is empty. No books to delete.\n");
+        return;
     }
-    else
-    {
-        while (temp != NULL)
+
+    struct Book *current = head;
+    struct Book *previous = NULL;
+    while (current != NULL) {
+        if (strcmp(current->ISBN_number, isbn_to_delete) == 0) 
         {
-            printf("\n ***** Display the Book Details - Book : %d ***** \n", count);
-            printf("Book's Title : %s\n", temp->book_title);
-            printf("Author Name : %s\n", temp->author);
-            printf("ISBN Number : %s\n", temp->ISBN_number);
-            printf("Publisher Name : %s\n", temp->publisher);
-            printf("Publication Year : %d\n", temp->publication_year);
-            printf("Genre : %s\n", temp->genre);
-            temp = temp->next;
-            if(temp != NULL)
+            printf("\nBook with ISBN '%s' is present. Deleting...\n", isbn_to_delete);
+            if (previous == NULL) 
             {
-                count++;
+                head = current->next;
+            } 
+            else 
+            {
+                previous->next = current->next;
             }
-        } 
+            if (current == tail) {
+                tail = previous;
+            }
+            free(current);
+            printf("Book successfully deleted.\n");
+            return;
+        }
+
+        previous = current;
+        current = current->next;
     }
-    current = current->NEXT;
+
+    printf("\nBook with ISBN '%s' not present in the catalogue.\n", isbn_to_delete);
 }
 
-void Free_MemoryAllocated() 
-{
-    // Free the linked list of books
-    struct Book *currentBook = head;
-    while (currentBook != NULL) {
-        struct Book *tempBook = currentBook;
-        currentBook = currentBook->next;
-        free(tempBook);
-    }
-    head = NULL;
-    tail = NULL;
+void update_book() {
+    printf("\n***** Update the details for a Book *****\n");
 
-    // Free the linked list of LibraryCatalogue entries
-    struct LibraryCatalogue *currentCatalogue = catalogue;
-    while (currentCatalogue != NULL) {
-        struct LibraryCatalogue *tempCatalogue = currentCatalogue;
-        currentCatalogue = currentCatalogue->NEXT;
-        free(tempCatalogue);
-    }
-    catalogue = NULL;
+    char isbn_to_update[20]; 
+    printf("\nEnter ISBN to update book details : ");
+    scanf("%s", isbn_to_update);
 
-    printf("\nMemory for catalogue and books has been freed.\n");
+    struct Book *current = head;
+
+    while (current != NULL) {
+        if (strcmp(current->ISBN_number, isbn_to_update) == 0) {
+            printf("\nBook with ISBN '%s' is present. nEnter new details : \n", isbn_to_update);
+
+            printf("Enter the New Title (Current - %s): ", current->book_title);
+            scanf("%s", current->book_title);
+
+            printf("Enter the New Author (Current - %s): ", current->author);
+            scanf("%s", current->author);
+
+            printf("Enter the New Publisher (Current - %s): ", current->publisher);
+            scanf("%s", current->publisher);
+
+            printf("Enter the New Publication Year (Current - %s): ", current->publication_year);
+            scanf("%s", &current->publication_year);
+
+            printf("Enter the New Genre (Current - %s): ", current->genre);
+            scanf("%s", current->genre);
+
+            printf("\nBook details updated successfully.\n");
+            return;
+        }
+        current = current->next;
+    }
+
+    printf("\nBook with ISBN '%s' is not present in the catalogue.\n", isbn_to_update);
+}
+
+void search_book() {
+    int choice;
+    char query[100];
+    struct Book *current = head;
+
+    printf("\n***** Search for a Book *****\n");
+    printf("Search by:\n1. Title\n2. Author\n3. ISBN Number\nEnter your choice : ");
+    scanf("%d", &choice);
+
+    if (choice < 1 || choice > 3) {
+        printf("Invalid choice. Please enter 1, 2, or 3.\n");
+        return;
+    }
+
+    printf("Enter your search element : ");
+    scanf("%s", query);
+
+    while (current != NULL) {
+        if ((choice == 1 && strcasecmp(current->book_title, query) == 0) ||
+            (choice == 2 && strcasecmp(current->author, query) == 0) ||
+            (choice == 3 && strcmp(current->ISBN_number, query) == 0)) {
+            printf("\nBook is present, Book's details :\n");
+            printf("Title : %s\n", current->book_title);
+            printf("Author : %s\n", current->author);
+            printf("ISBN Number : %s\n", current->ISBN_number);
+            printf("Publisher : %s\n", current->publisher);
+            printf("Publication Year : %d\n", current->publication_year);
+            printf("Genre : %s\n", current->genre);
+            return;
+        }
+        current = current->next;
+    }
+
+    printf("\nBook is not matching with the element.\n");
 }
 
 int main()
 {
-    int Book_cnt;
+    int Book_cnt; 
+
+    // Insert a book by ISBN
     printf("Enter the number to add new books : ");
     scanf("%d", &Book_cnt);
 
     for(int i = 0; i < Book_cnt; i++)
     {
-        Add_NewBook();
+        add_book();
     }
-    
-    Display_BookDetails();
-    Free_MemoryAllocated();
-    Display_BookDetails();
+
+    // Display book
+    display_book();
+
+     // Delete a book by ISBN
+    delete_book();
+    display_book();
+
+    // Delete a book by ISBN
+    update_book();
+    display_book();
+
+    // Search book by entered details
+    search_book();
+
+    // Free catalogue
+    free_catalogue();
     return 0;
 }
-
