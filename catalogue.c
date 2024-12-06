@@ -138,34 +138,3 @@ void search_book() {
     printf("\nBook is not matching with the element.\n");
 }
 
-int main()
-{
-    int Book_cnt; 
-
-    // Insert a book by ISBN
-    printf("Enter the number to add new books : ");
-    scanf("%d", &Book_cnt);
-
-    for(int i = 0; i < Book_cnt; i++)
-    {
-        add_book();
-    }
-
-    // Display book
-    display_book();
-
-     // Delete a book by ISBN
-    delete_book();
-    display_book();
-
-    // Delete a book by ISBN
-    update_book();
-    display_book();
-
-    // Search book by entered details
-    search_book();
-
-    // Free catalogue
-    free_catalogue();
-    return 0;
-}
