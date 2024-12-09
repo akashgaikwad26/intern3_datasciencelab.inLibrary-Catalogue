@@ -4,7 +4,7 @@
 #include "catalogue.c"
 #include "sort_book.c"
 #include "import_export.c"
-// #include "database.c"
+#include "database.c"
 
 void print_menu() {
     printf("\n=== Library Catalogue CLI ===\n");
@@ -24,7 +24,7 @@ void print_menu() {
 
 int main() {
     int choice; int Book_cnt; 
-    // initialize_database(); // Ensure the database schema exists
+    initialize_database(); // Ensure the database schema exists
 
     while (1) {
         print_menu();
@@ -74,13 +74,13 @@ int main() {
                 break;
             }
 
-            // case 9:
-            //     save_to_database();
-            //     break;
+            case 9:
+                save_to_database();
+                break;
 
-            // case 10:
-            //     load_from_database();
-            //     break;
+            case 10:
+                load_from_database();
+                break;
 
             case 11:
                 free_catalogue();
@@ -93,49 +93,3 @@ int main() {
 
     return 0;
 }
-
-
-// int main()
-// {
-//     int Book_cnt; 
-
-//     // Insert a book by ISBN
-//     printf("Enter the number to add new books : ");
-//     scanf("%d", &Book_cnt);
-
-//     for(int i = 0; i < Book_cnt; i++)
-//     {
-//         add_book();
-//     }
-
-//     // Display book
-//     display_book();
-
-//     // // Delete a book by ISBN
-//     // delete_book();
-//     // display_book();
-
-//     // // Delete a book by ISBN
-//     // update_book();
-//     // display_book();
-
-//     // // Search book by entered details
-//     // search_book();
-
-//     // Sort the books by entered element
-//     // sort_books();
-//     // display_book();
-
-//     // export_catalogue();
-    
-//     // import_catalogue();
-//     // display_book();
-
-//     save_to_database();
-
-//     load_from_database();
-
-//     // Free catalogue
-//     // free_catalogue();
-//     return 0;
-// }
