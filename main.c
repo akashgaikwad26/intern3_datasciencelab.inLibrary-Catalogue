@@ -4,9 +4,10 @@
 #include "catalogue.c"
 #include "sort_book.c"
 #include "import_export.c"
-#include "database.c"
+// #include "database.c"
 
-void print_menu() {
+void print_menu() 
+{
     printf("\n=== Library Catalogue CLI ===\n");
     printf("1. Add a New Book\n");
     printf("2. Display All Books\n");
@@ -22,17 +23,21 @@ void print_menu() {
     printf("Enter your choice : ");
 }
 
-int main() {
+int main() 
+{
     int choice; int Book_cnt; 
-    initialize_database(); // Ensure the database schema exists
+    // initialize_database(); // Ensure the database schema exists
 
-    while (1) {
+    while (1) 
+    {
         print_menu();
         scanf("%d", &choice);
         getchar(); // Consume newline left in the input buffer
 
-        switch (choice) {
+        switch (choice) 
+        {
             case 1:
+            {
                 printf("Enter the number to add new books : ");
                 scanf("%d", &Book_cnt);
 
@@ -41,50 +46,67 @@ int main() {
                     add_book();
                 }
                 break;
+            }
 
             case 2:
+            {
                 display_book();
                 break;
+            }
 
-            case 3: {
+            case 3: 
+            {
                 search_book();
                 break;
             }
 
             case 4:
+            {
                 update_book();
                 break;
+            }
 
             case 5:
+            {
                 delete_book();
                 break;
+            }
 
-            case 6: {
+            case 6: 
+            {
                 sort_books();
                 break;
             }
 
-            case 7: {
+            case 7: 
+            {
                 import_catalogue();
                 break;
             }
 
-            case 8: {
+            case 8: 
+            {
                 export_catalogue();
                 break;
             }
 
-            case 9:
-                save_to_database();
-                break;
+            // case 9:
+            // {
+            //     save_to_database();
+            //     break;
+            // }
 
-            case 10:
-                load_from_database();
-                break;
+            // case 10:
+            // {
+            //     load_from_database();
+            //     break;
+            // }
 
             case 11:
+            {
                 free_catalogue();
                 exit(0);
+            }
 
             default:
                 printf("Invalid choice. Please try again.\n");
@@ -93,3 +115,4 @@ int main() {
 
     return 0;
 }
+
