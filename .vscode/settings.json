@@ -59,6 +59,7 @@
   "C_Cpp.errorSquiggles": "disabled",
   "files.associations": {
     "book.h": "c",
-    "random": "c"
+    "random": "c",
+    "string.h": "c"
   }
 }
