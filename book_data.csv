@@ -1,12 +1,12 @@
-"book_title","author","isbn_number","publisher","publication_year","genre"
-"The Great Gatsby","F. Scott Fitzgerald","1122334455","Charles Scribner Sons","1925                ","Tragedy"
-"Pride and Prejudice","Jane Austen","2233445566","T. Egerton","1813                ","Romance"
-"Moby Dick","Herman Melville","4455667788","Harper & Brothers","1851                ","Adventure"
-"War and Peace","Leo Tolstoy","5566778899","The Russian Messenger","1869                ","Historical Fiction"
-"The Hobbit","J.R.R. Tolkien","6677889900","George Allen & Unwin","1937                ","Fantasy"
-"Ulysses","James Joyce","7788990011","Sylvia Beach","1922                ","Modernist"
-"Hamlet","William Shakespeare","8899001122","N/A","1603                ","Tragedy"
-"To Kill a Mockingbird","Harper Lee","9780061120084","J.B. Lippincott & Co.","1960                ","Classic"
-"The Catcher in the Rye","J.D. Salinger","9780316769488","Little, Brown and Company","1951                ","Fiction"
-"1984","George Orwell","9780451524935","Secker & Warburg","1949                ","Dystopian Fiction"
-"Shyamachi Aai","Sane Guruji","9788188773022","Sadhana","1948                ","Classic"
+book_title,author,isbn_number,publisher,publication_year,genre
+The Great Gatsby,F. Scott Fitzgerald,1122334455,Charles Scribner Sons,1925,Tragedy
+Pride and Prejudice,Jane Austen,2233445566,T. Egerton,1813,Romance
+Moby Dick,Herman Melville,4455667788,Harper & Brothers,1851,Adventure
+War and Peace,Leo Tolstoy,5566778899,The Russian Messenger,1869,Historical Fiction
+The Hobbit,J.R.R. Tolkien,6677889900,George Allen & Unwin,1937,Fantasy
+Ulysses,James Joyce,7788990011,Sylvia Beach,1922,Modernist
+Hamlet,William Shakespeare,8899001122,N/A,1603,Tragedy
+To Kill a Mockingbird,Harper Lee,8899001123,J.B. Lippincott & Co.,1960,Classic
+The Catcher in the Rye,J.D. Salinger,8899001124,"Little, Brown and Company",1951,Fiction
+1984,George Orwell,8899001125,Secker & Warburg,1949,Dystopian Fiction
+Shyamachi Aai,Sane Guruji,8899001126,Sadhana,1948,Classic

@@ -76,7 +76,7 @@ void update_book() {
 
     while (current != NULL) {
         if (strcmp(current->ISBN_number, isbn_to_update) == 0) {
-            printf("\nBook with ISBN '%s' is present. nEnter new details : \n", isbn_to_update);
+            printf("\nBook with ISBN '%s' is present. Enter new details : \n", isbn_to_update);
 
             printf("Enter the New Title (Current - %s): ", current->book_title);
             scanf("%s", current->book_title);

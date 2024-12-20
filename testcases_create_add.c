@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "catalogue.h"
 
 // Helper functions for testing
@@ -12,7 +13,7 @@ struct Book* create_book(const char* title, const char* author, const char* isbn
     strncpy(new_book->author, author, MAX_AUTHOR_LENGTH);
     strncpy(new_book->ISBN_number, isbn, 17);
     strncpy(new_book->publisher, publisher, MAX_PUBLISHER_LENGTH);
-    strncpy(new_book->publication_year, year, 4);
+    strncpy(new_book->publication_year, year, 6);
     strncpy(new_book->genre, genre, MAX_GENRE_LENGTH);
 
     new_book->next = NULL;
@@ -99,6 +100,8 @@ int main() {
         catalogue = catalogue->NEXT;
         free(temp);
     }
+
+    printf("***** Testcases for Create and books are working *****\n");
 
     return 0;
 }

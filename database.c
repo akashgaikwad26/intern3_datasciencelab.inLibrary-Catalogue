@@ -143,3 +143,10 @@ void load_from_database() {
     PQfinish(conn);
     printf("Catalogue loaded from the database successfully.\n");
 }
+
+int main()
+{
+    save_to_database();
+    load_from_database();
+    return 0;
+}
